@@ -18,9 +18,9 @@
             .bold-underline {font-weight: bold; text-decoration: underline;}
             h1 {font-size: 48px;margin-bottom: 0.7em;}
             h2 {font-size: 36px;margin-top: 1em;font-weight: bold;}
-            h3 {font-size: 30px;margin-top: 1em;text-align: center;}
-            h4 {font-size: 26px;margin-top: 1em; bold;}
-            h5 {font-size: 20px;margin-top: 1em;font-weight: normal;line-height: 1.5}
+            h3 {font-size: 28px;margin-top: 1em;text-align: center;}
+            h4 {font-size: 24px;margin-top: 1em; bold;}
+            h5 {font-size: 18px;margin-top: 1em;font-weight: normal;line-height: 1.5}
         </style>
     </head>
 
@@ -85,6 +85,7 @@
                         <h5>The primary goal of this lab was to establish a foundational understanding and
                           hands-on experience with the SparkFun RedBoard Artemis Nano through a series of
                           tasks. </h5>
+                        <hr>
                         <h4>1. “Example_Blink”</h4>
                         <h5>In this part of the lab, the 'Blink' sketch was uploaded to the SparkFun RedBoard Artemis Nano.
                           The onboard LED was programmed to alternate between on and off states.
@@ -93,6 +94,7 @@
                           <iframe width="560" height="315" src="https://www.youtube.com/embed/_Sj9BUfsdPk"
                           title="Blinking LED" frameborder="0" allowfullscreen></iframe>
                         </div>
+                        <hr>
                         <h4>2. "Example4_Serial"</h4>
                         <h5>In this example, we interacted with the Serial Monitor functionality in the Arduino IDE.
                            As seen in the screenshot, the Serial Monitor first outputs a sequence of printed messages
@@ -102,6 +104,7 @@
                         <div style="display: flex; justify-content: center; align-items: center;">
                           <img src="images/Lab1/p1.png" alt="Example4_Serial" style="width:50%; height:auto;">
                         </div>
+                        <hr>
                         <h4>3. "Example2_analogRead"</h4>
                         <h5>In this example, we will explore the Artemis Nano's temperature sensing capabilities.
                           The temperature on the chip will be detected and printed in the second column in the Serial Monitor,
@@ -113,6 +116,7 @@
                           <iframe width="560" height="315" src="https://www.youtube.com/embed/GDJAb92Xd2g"
                           title="Temperature Readings" frameborder="0" allowfullscreen></iframe>
                         </div>
+                        <hr>
                         <h4>4. "Example1_MicrophoneOutput"</h4>
                         <h5>In this part, the Example1_MicrophoneOutput script processes audio input to identify the
                           loudest frequency component using FFT, with the results displayed in real-time via the Serial Monitor.
@@ -123,7 +127,8 @@
                           <iframe width="560" height="315" src="https://www.youtube.com/embed/8JB_lKt7qPI"
                           title="Frequency Readings" frameborder="0" allowfullscreen></iframe>
                         </div>
-                        <h4>5. "5000 Level: LED Response to Musical 'A' Note"</h4>
+                        <hr>
+                        <h4>5000 Level: LED Response to Musical 'A' Note</h4>
                         <h5>The task uses the microphone to detect sound frequencies and activate an LED when the musical "A"
                           note (440 Hz) is identified. The screenshot confirms the Serial Monitor’s output, where frequencies
                           near 440 Hz trigger a "Yes" response. A tolerance of 10 Hz accommodates minor deviations, accounting
@@ -134,32 +139,36 @@
                             title="LED Response" frameborder="0" allowfullscreen></iframe>
                             <img src="images/Lab1/p2.png" alt="LED Response" style="width:35%; height:auto;">
                         </div>
-                        <div style="padding-top: 3vh;"></div>
+                        <hr>
+                        <div style="padding-top: 5vh;"></div>
                         <h3>Part II: Bluetooth Connection</h3>
                         <h4>Objectives</h4>
                         <h5>The objective of this part of the lab is to understand the BLE technology and its application in
                           connecting the Artemis board to a computer. By the end of this part, we should be able to send and
                           receive data over Bluetooth, exploring how this capability can be integrated into future labs.</h5>
+                        <hr>
                         <h4>Prelab</h4>
+                        <hr>
                         <h5>The prelab setup entailed a series of steps, including the installation of Python, setting up a
-                          virtual environment, and acquiring the ArduinoBLE library. Following these preliminary steps, the
-                          'ble_arduino.ino' sketch was uploaded to the Artemis board. Then the Serial Monitor displayed the
+                          virtual environment, and acquiring the ArduinoBLE library. After
+                          'ble_arduino.ino' sketch was uploaded to the Artemis board, the Serial Monitor displayed the
                           BLE advertisement and the board's MAC address, as shown in the screenshot. Now the computer can
-                          recognize the board as a Bluetooth device and a secure connection is established once paired,
-                          allowing for data exchange. The codebase facilitates Bluetooth communication between the computer
-                          and the Artemis board, managing functions such as initializing the BLE connection and sending/receiving
-                          readable data.</h5>
+                          recognize the board as a Bluetooth device and establish a secure connection
+                          for data exchange. The codebase facilitates Bluetooth communication between the computer
+                          and the board, managing functions such as initializing the BLE connection and sending/receiving
+                          data.</h5>
                         <div style="display: flex; justify-content: center; align-items: center;">
                           <img src="images/Lab1/p3.png" alt="Lab1_Prelab" style="width:30%; height:auto;">
                         </div>
+                        <hr>
                         <h4>BLE Configuration</h4>
-                        <h5>In the BLE Configuration phase of the lab, the initial step involved updating the 'connection.yaml'
-                          file with the MAC address obtained during the prelab. A new UUID was generated using the “uuid4()”
+                        <h5>The first step involved updating the 'connection.yaml'
+                          file with the MAC address obtained during the prelab. A new UUID was then generated using the “uuid4()”
                           function to uniquely identify the BLE service and was subsequently replaced in both the
-                          'ble_arduino.ino' sketch and the 'connection.yaml' file, as shown in the first two screenshots. The purpose of
+                          'ble_arduino.ino' and the 'connection.yaml', as shown in the first two screenshots. The purpose of
                           changing UUIDs is to create a unique identifier for services and characteristics, which prevents
-                          conflicts with other BLE devices and ensures secure, correct pairing and data exchange between
-                          the Artemis board and the computer. The third screen shows the connetion is established in Python.</h5>
+                          conflicts with other BLE devices and ensures secure, correct pairing.
+                          The third screen shows the connetion is established in Python.</h5>
                         <div style="display: flex; justify-content: center; align-items: center; gap: 50px;">
                             <img src="images/Lab1/p4.png" alt="BLE_Aruino_config" style="width:50%; height:auto;">
                             <img src="images/Lab1/p5.png" alt="BLE_Python_config" style="width:40%; height:auto;">
@@ -169,6 +178,7 @@
                             <img class="img-fluid" src="images/Lab1/p8.png"
                             alt="BLE_connected" style="width:60%; height:auto;">
                         </div>
+                        <hr>
                         <h4>1. "ECHO" Command</h4>
                         <h5>Python script sends a string to the board using the "send_command" function. The Artemis, programmed
                           with a switch-case structure in its Arduino sketch to handle various commands including "ECHO", responds
@@ -180,6 +190,7 @@
                         <div style="display: flex; justify-content: center; align-items: center; gap: 50px;">
                           <img src="images/Lab1/p7.png" alt="Python_ECHO" style="width:40%; height:auto;">
                         </div>
+                        <hr>
                         <h4>2. "GET_TIME_MILLIS" Command</h4>
                         <h5>Similarly, with the switch-case structure, the "GET_TIME_MILLIS" command is sent from the Python
                           script to the board to retrieve the current time in milliseconds. In the Arduino code, the "millis()"
@@ -189,6 +200,7 @@
                             <img src="images/Lab1/p9.png" alt="Aruino_Time" style="width:50%; height:auto;">
                             <img src="images/Lab1/p10.png" alt="Python_Time" style="width:40%; height:auto;">
                         </div>
+                        <hr>
                         <h4>3. "notification_handler" Function</h4>
                         <h5>The notification_handler function is invoked automatically whenever the  board sends data.
                           It processes the incoming byte array, extracting the time data in milliseconds. This data is then
@@ -196,6 +208,7 @@
                         <div style="display: flex; justify-content: center; align-items: center; gap: 50px;">
                           <img src="images/Lab1/p11.png" alt="Notification1" style="width:50%; height:auto;">
                         </div>
+                        <hr>
                         <h4>4. Data Transfer Rate 1</h4>
                         <h5>The "GET_TIME" command, records time data points 'len' times, and at the end, calculates the
                           duration required to send 'len' data points. The last time data point sent represents the total time
@@ -207,6 +220,7 @@
                             <img src="images/Lab1/p12.png" alt="Arduino_rate1" style="width:45%; height:auto;">
                             <img src="images/Lab1/p13.png" alt="Python_rate1" style="width:50%; height:auto;">
                         </div>
+                        <hr>
                         <h4>5. "SEND_TIME_DATA" Command</h4>
                         <h5>In "SEND_TIME_DATA" case, the board captured timestamps and storing them in an array until
                           the max_array=20 was reached. It then transmitted each timestamp back to the computer.</h5>
@@ -215,6 +229,7 @@
                             <img src="images/Lab1/p15.png" alt="Arduino_array" style="width:50%; height:auto;">
                             <img src="images/Lab1/p16.png" alt="Python_array" style="width:40%; height:auto;">
                         </div>
+                        <hr>
                         <h4>6. "GET_TEMP_READINGS" Command and "notification_handler2" Function </h4>
                         <h5>The "GET_TEMP_READINGS" case, each reading is acquired using "getTempDegC()"
                           and stored with a corresponding timestamp from "millis()". The completed array is
@@ -225,6 +240,7 @@
                             <img src="images/Lab1/p17.png" alt="Arduino_time_temp" style="width:45%; height:auto;">
                             <img src="images/Lab1/p18.png" alt="Python_time_temp" style="width:50%; height:auto;">
                         </div>
+                        <hr>
                         <h4>7. Data Tranfer Rate 2</h4>
                         <h5>In "GET_TEMP_READINGS" command, the total process time required to store data into array
                           and send array is calculated. This process time is stored in the last row of time_array and
@@ -234,22 +250,50 @@
                         <div style="display: flex; justify-content: center; align-items: center; gap: 50px;">
                           <img src="images/Lab1/p19.png" alt="Python_rate2" style="width:60%; height:auto;">
                         </div>
-                        <h5>The faster rate of 1.041 bytes/ms for "GET_TEMP_READINGS" comes from storing multiple
+                        <h5>The faster rate of 1.041 bytes/ms comes from storing multiple
                           readings in an array before sending, which reduces overhead and increases efficiency.
-                          Conversely, the slower rate of 0.489 bytes/ms from the "GET_TIME" task is due to sending
+                          Conversely, the slower rate of 0.489 bytes/ms is due to sending
                           each reading immediately after it's taken, which includes more communication overhead for
-                          each individual transmission, thereby reducing the overall transfer rate.</h5>
+                          each individual transmission.</h5>
                         <h5>Given that doubles occupy 8 bytes and floats occupy 4 bytes, each time-temperature pair
                           constitutes 12 bytes. Furthermore, string representations like 'T:294649.0|C:23.412' require
                           an additional 19 bytes for ‘tx_estring_value’ before sending it. Therefore, ignoring the
                           memory overhead, subtracting this string size from the total available memory (384 KB) and
                           dividing by the size per data pair gives a rough estimate of how many pairs can be stored.
                           (384000-19)/12 ≈ 31998 time-temperature pairs can be stored.</h5>
-
-
-
-                        <h4></h4>
-                        <h5></h5>
+                        <hr>
+                        <h4>5000 Level: Effective Data Rate and Overhead</h4>
+                        <h5>The "CALC_DATA_RATE" command in the Arduino sketch send back a specified number of 'A'
+                          characters, as a measure of the bytes of data transmitted over BLE within a certain timeframe.
+                          In Python script, data rates were calculated based on the duration taken for replies ranging
+                          from 5 bytes to 120 bytes. The observed data rates plotted against the message sizes indicate
+                          a general increase in data rate with larger packets, suggesting better efficiency with fewer
+                          packets. The sudden drop seen in the plot for the largest packet size could indicate a limit
+                          to this efficiency gain at higher data loads.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 30px;">
+                          <img src="images/Lab1/p20.png" alt="Arduino_rate" style="width:40%; height:auto;">
+                          <img src="images/Lab1/p21.png" alt="Python_rate" style="width:40%; height:auto;">
+                        </div>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 30px;">
+                          <img src="images/Lab1/p22.png" alt="Arduino_rate_plot" style="width:50%; height:auto;">
+                        </div>
+                        <hr>
+                        <h4>5000 Level: Reliability</h4>
+                        <h5>By successfully sending and confirming the receipt of large data packets – 130, 140, and 150
+                          bytes – with no loss, the computer demonstrates its ability to accurately read all data published
+                          by the Artemis board, as shown in the screenshot. This suggests high reliability in the BLE
+                          communication channel, as even when approaching the byte size limit of 151 bytes, the data
+                          integrity is maintained without any observed loss or missed information. </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 30px;">
+                          <img src="images/Lab1/p23.png" alt="Reliability" style="width:80%; height:auto;">
+                        </div>
+                        <hr>
+                        <h2>Dicussion</h2>
+                        <h5>Throughout this lab, I've gained a deeper understanding of BLE communication, learning how varying
+                          data packet sizes affect transfer rates. One significant challenge was adapting the notification handler
+                          function for various data sizes, leading to the creation of "notification_handler2", capable of processing
+                          multiple data types. Implementing this handlers function for data processing is important for future labs.</h5>
+                        <hr>
                     </div>
 
                     <!-- Lab 2 content -->
