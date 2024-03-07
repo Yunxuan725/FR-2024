@@ -308,111 +308,97 @@
                         <div style="display: flex; justify-content: center; align-items: center; gap: 30px;">
                           <img src="images/Lab2/p1.png" alt="IMU_connection" style="width:40%; height:auto;">
                         </div>
-                        <h5>The AD0_VAL defines the last bit of the I2C address for the IMU sensor. Here,
-                          the AD0_VAL is set to 0, as shown in the code snippet, to succesfully initialize
-                          the sensor. AD0_VAL of 1 will not work. The screenshot also illustrates the successful
-                          compilation and output of the Example1_Basics.ino sketch, where the serial monitor displays
-                          real-time sensor data outputs, including scaled acceleration, gyroscope, and magnetometer readings
-                          in x-, y- and z-axis, as well as the temperature readings. This complete set of readings confirms
-                          the IMU is connected with the Artemis.</h5>
+                        <h5>The AD0_VAL defines the last bit of the I2C address for the IMU sensor. Here
+                          the AD0_VAL is set to 0 to initialize
+                          the sensor. The screenshot illustrates the successful
+                          compilation and output of the Example1_Basics.ino sketch.</h5>
                         <div style="display: flex; justify-content: center; align-items: center; gap: 30px;">
                           <img src="images/Lab2/p2.png" alt="AD0" style="width:80%; height:auto;">
                         </div>
-                        <h5>I create the “Accelerometer.ino” program to visualize the sensor data through the Serial Plotter,
-                          which has value 2, 3, and 4 corresponding to the x-, y-, and z-axis accelerometer readings, and value
-                          5, 6, and 7 corresponding to the x-, y-, and z-axis gyroscope readings. When the IMU flat on the table,
-                          the Serial Plotter shows overlapping x and y-axis accelerometer readings, as shown in screenshot below.
+                        <h5>When the IMU lies flat on the table,
+                          the plot shows overlapping x- and y-axis accelerometer readings (value 2 and 3).
                           This overlapping is expected due to gravity's effect primarily on the z-axis in this position. </h5>
                         <div style="display: flex; justify-content: center; align-items: center; gap: 30px;">
                           <img src="images/Lab2/p3.png" alt="Plot_flat" style="width:50%; height:auto;">
                         </div>
-                        <h5>Upon rotating the IMU along the cable axis, the accelerometer data, as seen in the left picture,
-                          exhibits noticeable fluctuations. This noise is attributed to the accelerometer's high sensitivity
-                          to even minor movements. In contrast, the gyroscope readings, depicted in the right picture, are
+                        <h5>Upon rotating the IMU along the cable axis, the accelerometer data in the left plot
+                          exhibits noticeable fluctuations, indicating the accelerometer's high sensitivity
+                          to even minor movements. In contrast, the gyroscope readings in the right plot are
                           smoother. This smoothness is expected as gyroscopes measure rotation without the influence of
-                          gravitational acceleration. However, the gyroscope is subject to drift over time, which can lead to
-                          accumulating errors and a shift in the baseline, as suggested by the trend in the y-axis magnitude.
-                          This phenomenon underscores the importance of combining accelerometer and gyroscope data for more
-                          accurate motion tracking.</h5>
+                          gravity. However, the gyroscope is subject to drift over time, which can lead to
+                          accumulating errors and a shift in the baseline.</h5>
                         <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
                           <img src="images/Lab2/p4.png" alt="Plot_rot_acc" style="width:45%; height:auto;">
                           <img src="images/Lab2/p5.png" alt="Plot_rot_gyro" style="width:45%; height:auto;">
                         </div>
-                        <h5>The visual indication, blinking built-in LED three times, is implemented. The blink function is
-                          shown in code snippet below. And the function "pinMode(LED_BUILTIN, OUTPUT)"" and "blink(3)"" are
-                          called within the setup to execute the blink pattern three times after the board initialization.</h5>
+                        <h5>The visual indication, blinking LED three times, is implemented after the board initialization.</h5>
                         <div style="display: flex; justify-content: center; align-items: center; gap: 30px;">
                           <img src="images/Lab2/p7.png" alt="visual_indication" style="width:45%; height:auto;">
                           <img src="images/Lab2/p6.png" alt="blink" style="width:25%; height:auto;">
                         </div>
                         <hr>
                         <h4>2. Accelerometer</h4>
-                        <h5>The left picture shows the equation used to calculate the pitch and roll angles from accelerometer
-                          readings, while the right picture shows the code snippet that prints these angles out. </h5>
+                        <h5>The following two pictures shows the equations and codes used to calculate the pitch and roll angles
+                          from accelerometer readings. </h5>
                         <div style="display: flex; justify-content: center; align-items: center; gap: 30px;">
                           <img src="images/Lab2/p9.png" alt="pitch_roll_eqn" style="width:15%; height:auto;">
                           <img src="images/Lab2/p8.png" alt="pitch_roll_code" style="width:45%; height:auto;">
                         </div>
-                        <h5>The angle data is then processed in Python script for visualization. As shown in the two plots below,
-                          a clear pattern of change in pitch and roll angles from -90 to 0 to 90 degrees. Notably, as one angle
-                          reaches its extremities, the data for the other angle becomes more variable. This is due to the
+                        <h5>As shown in the two plots below,
+                          a clear pattern of change in pitch and roll angles from -90 to 0 to 90 degrees. As one angle
+                          reaches its extremities, the other angle becomes more variable. This is due to the
                           inherent limitations of accelerometers at extreme tilt angles. </h5>
                         <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
                           <img src="images/Lab2/p10.png" alt="acc_pitch_degree" style="width:45%; height:auto;">
                           <img src="images/Lab2/p11.png" alt="acc_roll_degree" style="width:45%; height:auto;">
                         </div>
                         <h5>The code snippet below shows that the conversion factors of 1.038 for roll and 1.027 for pitch were
-                          obtained through a two-point calibration process, indicating the high precision of the sensor after
-                          calibration. </h5>
+                          obtained through a two-point calibration process, indicating the high accuracy. </h5>
                         <div style="display: flex; justify-content: center; align-items: center; gap: 30px;">
                           <img src="images/Lab2/p12.png" alt="conversion_factor" style="width:45%; height:auto;">
                         </div>
-                        <h5>The graph below presents the amplitude of frequencies detected in the data, with both pitch and
-                          roll showing significant components at low frequencies. This suggests that the most substantial
-                          movements picked up by the accelerometer occur at or below 1 Hz.</h5>
+                        <h5>The graph below is the pitch and
+                          roll data in frequency domain,suggesting that the most substantial
+                          movements picked up by the accelerometer occur below 1 Hz.</h5>
                         <div style="display: flex; justify-content: center; align-items: center; gap: 30px;">
                           <img src="images/Lab2/p13.png" alt="frquency_spec" style="width:45%; height:auto;">
                         </div>
-                        <h5>A cut-off frequency of 1 Hz is chosen based on this analysis. By applying a low-pass filter with
-                          this cut-off, we obtain the filtered signals shown in the following graph. The comparison between
-                          raw and filtered data indicates that the high-frequency noise is significantly reduced, resulting
-                          in smoother and more interpretable curves. </h5>
+                        <h5>A cut-off frequency of 1 Hz is then chosen. By applying a low-pass filter, we obtain the filtered
+                          signals. The comparison between
+                          raw and filtered data indicates the high-frequency noise is filtered, resulting
+                          in smoother curves. </h5>
                         <div style="display: flex; justify-content: center; align-items: center; gap: 30px;">
                           <img src="images/Lab2/p14.png" alt="noise_filter" style="width:50%; height:auto;">
                         </div>
                         <hr>
                         <h4>3. Gyroscope</h4>
-                        <h5>The pitch, roll and yaw in degree is calculated using the code snippet below.</h5>
+                        <h5>The pitch, roll and yaw in degree is calculated using the codes below.</h5>
                         <div style="display: flex; justify-content: center; align-items: center; gap: 30px;">
                           <img src="images/Lab2/p15.png" alt="pitch_roll_gyro_eqn" style="width:30%; height:auto;">
                         </div>
                         <h5>The following two plots are from the readings of gyroscope(left) and accelerometer(right)
-                          when the sensor is stationary. The left plot illustrates the sensor's drift over time, showing
-                          slight deviations. This highlights the inherent drift characteristic of gyroscopes, requiring
-                          periodic recalibration to correct for this drift over time.</h5>
+                          when the IMU is stationary. The left plot illustrates the inherent drift characteristic of gyroscopes.</h5>
                         <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
                           <img src="images/Lab2/p16.png" alt="gyro_drift" style="width:45%; height:auto;">
                           <img src="images/Lab2/p17.png" alt="acc_drift" style="width:45%; height:auto;">
                         </div>
-                        <h5>The analysis of the gyroscope data when the IMU is randomly shaken shows a significant difference
-                          in sensitivity between the accelerometer and the gyroscope. The gyroscope readings, represented by
-                          the blue, pink, and ywllow curves, are less affected by the high-frequency noise that the accelerometer
+                        <h5>When the IMU is randomly shaken, the gyroscope readings, represented by
+                          the blue, pink, and yellow curves, are less affected by the high-frequency noise that the accelerometer
                           readings (green and orange) pick up.</h5>
                         <div style="display: flex; justify-content: center; align-items: center; gap: 30px;">
                           <img src="images/Lab2/p18.png" alt="shake" style="width:50%; height:auto;">
                         </div>
                         <h5>The following two plots demonstrate that while the patterns of motion recorded by the gyroscope are
                           similar to those of the accelerometer, there is a discrepancy in magnitude. This suggests that the
-                          gyroscope is better at capturing consistent rotational velocities but may require scaling or
+                          gyroscope is better at capturing consistent rotational velocities but may require
                           calibration to match the exact motion.</h5>
                         <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
                           <img src="images/Lab2/p19.png" alt="acc" style="width:45%; height:auto;">
                           <img src="images/Lab2/p20.png" alt="gyro" style="width:45%; height:auto;">
                         </div>
-                        <h5>The variation in smoothness between the two sets of gyroscopic data is attributed to the difference in
-                          sampling rates. The left graph with a 30ms delay between samples shows a smoother curve, while the
-                          second graph with a 300ms delay exhibits a rougher appearance. Thus, high sample rate is important for
-                          accuracy.</h5>
+                        <h5>The curves in left plot with a 30ms delay between samples is smoother than the curves in
+                          the right plotwith a 300ms delay. Thus, a higher sample rate is important for
+                          accuracy of gyroscopic data.</h5>
                         <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
                           <img src="images/Lab2/p22.png" alt="fast_rate" style="width:45%; height:auto;">
                           <img src="images/Lab2/p23.png" alt="low_rate" style="width:45%; height:auto;">
@@ -431,13 +417,58 @@
                           <img src="images/Lab2/p25.png" alt="compli_cf" style="width:40%; height:auto;">
                         </div>
                         <hr>
-
-
-
-
-
-                        <h4></h4>
-                        <h5></h5>
+                        <h4>4. Sample Data</h4>
+                        <h5>In managing the IMU data collection and transmission, two flags, 'isCollectingData' and
+                          'isSendingData', are used. The 'isCollectingData' flag toggles the reading and storage of data within
+                          the "save_IMU" function, while the 'isSendingData'
+                          flag controls the sending of stored data arrays. This system incorporates flexibility;
+                          a new incoming command from the Python can interrupt and stop the ongoing
+                          GET_IMU_DATA operation by toggling these flags. This Arduino program is designed to read and send IMU data
+                          for a certain time interval.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab2/p26.png" alt="IMU_code1" style="width:45%; height:auto;">
+                          <img src="images/Lab2/p27.png" alt="IMU_code2" style="width:50%; height:auto;">
+                        </div>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab2/p28.png" alt="IMU_code3" style="width:45%; height:auto;">
+                          <img src="images/Lab2/p29.png" alt="IMU_code4" style="width:50%; height:auto;">
+                        </div>
+                        <h5>The following Python code processes the receieved data to calculate the sample rate.
+                          310 samples are collected per second over a nearly
+                          5-second interval. </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab2/p30.png" alt="Python_IMU1" style="width:35%; height:auto;">
+                          <img src="images/Lab2/p31.png" alt="Python_IMU2" style="width:65%; height:auto;">
+                        </div>
+                        <h5>As shown in earlier code, I decided to save the IMU data into seven separate float arrays. This approach
+                          facilitates focused troubleshooting and calibration, enabling precise adjustments per sensor.
+                          By transmitting data in discrete time steps, we can closely monitor the stream's integrity.</h5>
+                        <h5>The choice of using float arrays is the balance between precision and memory. For IMU sensor data that requires
+                          high precision, float or double should be used. The float array satisfies the precision needed at the cost of
+                          using less memory than the double array.</h5>
+                        <h5>The memory allocation is also carefully considered. With each data row consisting of 7 float
+                           values, each requiring 4 bytes, we allocate 28 bytes per row.
+                           An additional 88 bytes is reserved for the string ‘tx_estring_value’ that will be transmitted.
+                           The Artemis with 384KB capacity would allow to store up to (384000-88)/28≈13711 rows of data. As shown in
+                           the earlier code snippets, we've conservatively limited it to 5,000 rows within the ‘maxData’ variable.
+                           This limitation not only prevents potential memory overflow but also permits a considerable window of data
+                           collection, estimated to cover around 5000/310≈16 seconds. </h5>
+                        <hr>
+                        <h4>Record a Stunt</h4>
+                        <h5>The car is disassembled for future labs, so the stunt simulation is conducted manually.
+                          The battery is connected to the Artemis as shown below. </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab2/p33.png" alt="remote" style="width:30%; height:auto;">
+                        </div>
+                        <h5>Holding the IMU, I executed movements that mimicked the anticipated actions of the car—moving it forward,
+                          backward, and rotating in place. The resulting plot captures the accelerometer's readings along the
+                          x, y, and z axes.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                          <img src="images/Lab2/p32.png" alt="stunt" style="width:50%; height:auto;">
+                          <iframe width="560" height="315" src="https://www.youtube.com/embed/GCGroyWw844"
+                          title="Temperature Readings" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <hr>
                     </div>
 
                     <!-- Lab 3 content -->
