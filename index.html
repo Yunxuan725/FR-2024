@@ -382,7 +382,55 @@
                         </div>
                         <hr>
                         <h4>3. Gyroscope</h4>
-                        <h5></h5>
+                        <h5>The pitch, roll and yaw in degree is calculated using the code snippet below.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 30px;">
+                          <img src="images/Lab2/p15.png" alt="pitch_roll_gyro_eqn" style="width:30%; height:auto;">
+                        </div>
+                        <h5>The following two plots are from the readings of gyroscope(left) and accelerometer(right)
+                          when the sensor is stationary. The left plot illustrates the sensor's drift over time, showing
+                          slight deviations. This highlights the inherent drift characteristic of gyroscopes, requiring
+                          periodic recalibration to correct for this drift over time.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+                          <img src="images/Lab2/p16.png" alt="gyro_drift" style="width:45%; height:auto;">
+                          <img src="images/Lab2/p17.png" alt="acc_drift" style="width:45%; height:auto;">
+                        </div>
+                        <h5>The analysis of the gyroscope data when the IMU is randomly shaken shows a significant difference
+                          in sensitivity between the accelerometer and the gyroscope. The gyroscope readings, represented by
+                          the blue, pink, and ywllow curves, are less affected by the high-frequency noise that the accelerometer
+                          readings (green and orange) pick up.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 30px;">
+                          <img src="images/Lab2/p18.png" alt="shake" style="width:50%; height:auto;">
+                        </div>
+                        <h5>The following two plots demonstrate that while the patterns of motion recorded by the gyroscope are
+                          similar to those of the accelerometer, there is a discrepancy in magnitude. This suggests that the
+                          gyroscope is better at capturing consistent rotational velocities but may require scaling or
+                          calibration to match the exact motion.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+                          <img src="images/Lab2/p19.png" alt="acc" style="width:45%; height:auto;">
+                          <img src="images/Lab2/p20.png" alt="gyro" style="width:45%; height:auto;">
+                        </div>
+                        <h5>The variation in smoothness between the two sets of gyroscopic data is attributed to the difference in
+                          sampling rates. The left graph with a 30ms delay between samples shows a smoother curve, while the
+                          second graph with a 300ms delay exhibits a rougher appearance. Thus, high sample rate is important for
+                          accuracy.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+                          <img src="images/Lab2/p22.png" alt="fast_rate" style="width:45%; height:auto;">
+                          <img src="images/Lab2/p23.png" alt="low_rate" style="width:45%; height:auto;">
+                        </div>
+                        <h5>Applying the complimentary filter as shown below integrates the gyroscopic and accelerometer data to
+                          correct for the gyroscope's drift and the accelerometer's high sensitivity to immediate movements.
+                          The weight of 0.1 in the complimentary filter effectively combines the stability of the gyroscope
+                          with the accelerometer's precision. As shown in the plot on the right, both low-pass filter and the
+                          complimentary filter effectively reduce the noise. </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab2/p21.png" alt="compli_filter" style="width:40%; height:auto;">
+                          <img src="images/Lab2/p24.png" alt="filter_compare" style="width:50%; height:auto;">
+                        </div>
+                        <h5>The conversion factor of 1.044 and 1.021 indicate the data's accuracy post-filtering.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 30px;">
+                          <img src="images/Lab2/p25.png" alt="compli_cf" style="width:40%; height:auto;">
+                        </div>
+                        <hr>
 
 
 
