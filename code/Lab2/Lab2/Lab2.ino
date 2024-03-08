@@ -215,5 +215,3 @@ void read_data(){
         handle_command();
     }
 }
-
-
