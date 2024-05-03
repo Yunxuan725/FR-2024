@@ -657,3 +657,13 @@
 2024-03-06 14:37:40,794 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:89:c1:6d:24:4b
 2024-03-06 14:37:45,522 | MainThread   | [INFO    ] | _connect            |: Connected to c0:89:c1:6d:24:4b
 2024-03-06 15:23:53,313 | MainThread   | [INFO    ] | disconnect_handler  |: Disconnected from C0:89:C1:6D:24:4B
+2024-03-12 04:19:47,267 | MainThread   | [DEBUG   ] | <module>            |: debug
+2024-03-12 04:19:47,270 | MainThread   | [INFO    ] | <module>            |: info
+2024-03-12 04:19:47,279 | MainThread   | [WARNING ] | <module>            |: warning
+2024-03-12 04:19:47,281 | MainThread   | [ERROR   ] | <module>            |: error
+2024-03-12 04:19:47,282 | MainThread   | [CRITICAL] | <module>            |: critical
+2024-03-12 04:22:30,014 | MainThread   | [DEBUG   ] | __init__            |: Python Info: sys.version_info(major=3, minor=12, micro=2, releaselevel='final', serial=0)
+2024-03-12 04:22:30,014 | MainThread   | [DEBUG   ] | __init__            |: System Info: Windows-10-10.0.19045-SP0
+2024-03-12 04:22:30,015 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:89:c1:6d:24:4b
+2024-03-12 04:22:34,603 | MainThread   | [INFO    ] | _connect            |: Connected to c0:89:c1:6d:24:4b
+2024-03-12 04:24:07,300 | MainThread   | [INFO    ] | disconnect_handler  |: Disconnected from C0:89:C1:6D:24:4B

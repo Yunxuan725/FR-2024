@@ -1,0 +1,109 @@
+2024-04-28 23:50:35,138 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:89:c1:6d:24:4b
+2024-04-28 23:50:39,695 | MainThread   | [INFO    ] | _connect            |: Connected to c0:89:c1:6d:24:4b
+2024-04-28 23:56:10,723 | MainThread   | [INFO    ] | disconnect_handler  |: Disconnected from C0:89:C1:6D:24:4B
+2024-04-28 23:57:04,181 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:89:c1:6d:24:4b
+2024-04-28 23:57:09,160 | MainThread   | [INFO    ] | _connect            |: Connected to c0:89:c1:6d:24:4b
+2024-04-29 00:15:54,909 | MainThread   | [INFO    ] | disconnect_handler  |: Disconnected from C0:89:C1:6D:24:4B
+2024-04-29 00:42:05,607 | MainThread   | [DEBUG   ] | <module>            |: debug
+2024-04-29 00:42:05,607 | MainThread   | [INFO    ] | <module>            |: info
+2024-04-29 00:42:05,610 | MainThread   | [WARNING ] | <module>            |: warning
+2024-04-29 00:42:05,610 | MainThread   | [ERROR   ] | <module>            |: error
+2024-04-29 00:42:05,611 | MainThread   | [CRITICAL] | <module>            |: critical
+2024-04-29 00:42:57,610 | MainThread   | [DEBUG   ] | __init__            |: Python Info: sys.version_info(major=3, minor=12, micro=3, releaselevel='final', serial=0)
+2024-04-29 00:42:57,610 | MainThread   | [DEBUG   ] | __init__            |: System Info: Windows-10-10.0.19045-SP0
+2024-04-29 00:42:57,611 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:89:c1:6d:24:4b
+2024-04-29 00:43:02,268 | MainThread   | [INFO    ] | _connect            |: Connected to c0:89:c1:6d:24:4b
+2024-04-29 00:45:54,946 | MainThread   | [INFO    ] | disconnect_handler  |: Disconnected from C0:89:C1:6D:24:4B
+2024-04-29 00:46:03,822 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:89:c1:6d:24:4b
+2024-04-29 00:46:08,321 | MainThread   | [INFO    ] | _connect            |: Connected to c0:89:c1:6d:24:4b
+2024-04-29 00:50:01,790 | MainThread   | [INFO    ] | disconnect_handler  |: Disconnected from C0:89:C1:6D:24:4B
+2024-04-29 00:50:15,210 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:89:c1:6d:24:4b
+2024-04-29 00:50:20,446 | MainThread   | [INFO    ] | _connect            |: Connected to c0:89:c1:6d:24:4b
+2024-04-29 00:55:35,215 | MainThread   | [INFO    ] | disconnect_handler  |: Disconnected from C0:89:C1:6D:24:4B
+2024-04-29 00:55:40,805 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:89:c1:6d:24:4b
+2024-04-29 00:55:46,012 | MainThread   | [INFO    ] | _connect            |: Connected to c0:89:c1:6d:24:4b
+2024-04-29 00:59:27,660 | MainThread   | [INFO    ] | disconnect_handler  |: Disconnected from C0:89:C1:6D:24:4B
+2024-04-29 00:59:40,393 | MainThread   | [INFO    ] | exit_handler        |: Exiting...
+2024-04-29 00:59:40,395 | MainThread   | [WARNING ] | exit_handler        |: Could not disconnect before exiting
+2024-04-29 00:59:40,396 | MainThread   | [WARNING ] | exit_handler        |: Not connected to a BLE device
+2024-04-29 00:59:40,528 | MainThread   | [WARNING ] | __del__             |: Could not delete BaseBLEController instance before exiting
+2024-04-29 00:59:40,553 | MainThread   | [WARNING ] | __del__             |: [WinError 10038] An operation was attempted on something that is not a socket
+2024-04-29 00:59:44,230 | MainThread   | [DEBUG   ] | <module>            |: debug
+2024-04-29 00:59:44,231 | MainThread   | [INFO    ] | <module>            |: info
+2024-04-29 00:59:44,233 | MainThread   | [WARNING ] | <module>            |: warning
+2024-04-29 00:59:44,234 | MainThread   | [ERROR   ] | <module>            |: error
+2024-04-29 00:59:44,235 | MainThread   | [CRITICAL] | <module>            |: critical
+2024-04-29 00:59:44,303 | MainThread   | [DEBUG   ] | __init__            |: Python Info: sys.version_info(major=3, minor=12, micro=3, releaselevel='final', serial=0)
+2024-04-29 00:59:44,303 | MainThread   | [DEBUG   ] | __init__            |: System Info: Windows-10-10.0.19045-SP0
+2024-04-29 00:59:44,303 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:89:c1:6d:24:4b
+2024-04-29 00:59:48,959 | MainThread   | [INFO    ] | _connect            |: Connected to c0:89:c1:6d:24:4b
+2024-04-29 01:02:25,505 | MainThread   | [INFO    ] | disconnect_handler  |: Disconnected from C0:89:C1:6D:24:4B
+2024-04-29 01:02:28,091 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:89:c1:6d:24:4b
+2024-04-29 01:02:33,241 | MainThread   | [INFO    ] | _connect            |: Connected to c0:89:c1:6d:24:4b
+2024-04-29 01:04:49,146 | MainThread   | [INFO    ] | disconnect_handler  |: Disconnected from C0:89:C1:6D:24:4B
+2024-04-29 01:04:49,785 | MainThread   | [INFO    ] | exit_handler        |: Exiting...
+2024-04-29 01:04:49,787 | MainThread   | [WARNING ] | exit_handler        |: Could not disconnect before exiting
+2024-04-29 01:04:49,787 | MainThread   | [WARNING ] | exit_handler        |: Not connected to a BLE device
+2024-04-29 01:04:49,888 | MainThread   | [WARNING ] | __del__             |: Could not delete BaseBLEController instance before exiting
+2024-04-29 01:04:49,897 | MainThread   | [WARNING ] | __del__             |: [WinError 10038] An operation was attempted on something that is not a socket
+2024-04-29 01:04:53,572 | MainThread   | [DEBUG   ] | <module>            |: debug
+2024-04-29 01:04:53,572 | MainThread   | [INFO    ] | <module>            |: info
+2024-04-29 01:04:53,575 | MainThread   | [WARNING ] | <module>            |: warning
+2024-04-29 01:04:53,576 | MainThread   | [ERROR   ] | <module>            |: error
+2024-04-29 01:04:53,577 | MainThread   | [CRITICAL] | <module>            |: critical
+2024-04-29 01:04:54,368 | MainThread   | [DEBUG   ] | __init__            |: Python Info: sys.version_info(major=3, minor=12, micro=3, releaselevel='final', serial=0)
+2024-04-29 01:04:54,368 | MainThread   | [DEBUG   ] | __init__            |: System Info: Windows-10-10.0.19045-SP0
+2024-04-29 01:04:54,369 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:89:c1:6d:24:4b
+2024-04-29 01:04:59,344 | MainThread   | [INFO    ] | _connect            |: Connected to c0:89:c1:6d:24:4b
+2024-04-29 01:07:08,228 | MainThread   | [INFO    ] | disconnect_handler  |: Disconnected from C0:89:C1:6D:24:4B
+2024-04-29 01:07:25,054 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:89:c1:6d:24:4b
+2024-04-29 01:07:30,186 | MainThread   | [INFO    ] | _connect            |: Connected to c0:89:c1:6d:24:4b
+2024-04-29 01:09:26,712 | MainThread   | [INFO    ] | disconnect_handler  |: Disconnected from C0:89:C1:6D:24:4B
+2024-04-29 01:09:30,313 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:89:c1:6d:24:4b
+2024-04-29 01:09:34,989 | MainThread   | [INFO    ] | _connect            |: Connected to c0:89:c1:6d:24:4b
+2024-04-29 01:10:39,613 | MainThread   | [INFO    ] | disconnect_handler  |: Disconnected from C0:89:C1:6D:24:4B
+2024-04-29 01:10:43,698 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:89:c1:6d:24:4b
+2024-04-29 01:10:48,550 | MainThread   | [INFO    ] | _connect            |: Connected to c0:89:c1:6d:24:4b
+2024-04-29 01:11:43,160 | MainThread   | [INFO    ] | exit_handler        |: Exiting...
+2024-04-29 01:11:43,233 | MainThread   | [WARNING ] | exit_handler        |: Could not disconnect before exiting
+2024-04-29 01:11:43,234 | MainThread   | [WARNING ] | exit_handler        |: Event loop stopped before Future completed.
+2024-04-29 01:11:43,339 | MainThread   | [WARNING ] | __del__             |: Could not delete BaseBLEController instance before exiting
+2024-04-29 01:11:43,396 | MainThread   | [WARNING ] | __del__             |: [WinError 10038] An operation was attempted on something that is not a socket
+2024-04-29 01:11:47,441 | MainThread   | [DEBUG   ] | <module>            |: debug
+2024-04-29 01:11:47,442 | MainThread   | [INFO    ] | <module>            |: info
+2024-04-29 01:11:47,444 | MainThread   | [WARNING ] | <module>            |: warning
+2024-04-29 01:11:47,445 | MainThread   | [ERROR   ] | <module>            |: error
+2024-04-29 01:11:47,446 | MainThread   | [CRITICAL] | <module>            |: critical
+2024-04-29 01:12:01,368 | MainThread   | [DEBUG   ] | __init__            |: Python Info: sys.version_info(major=3, minor=12, micro=3, releaselevel='final', serial=0)
+2024-04-29 01:12:01,369 | MainThread   | [DEBUG   ] | __init__            |: System Info: Windows-10-10.0.19045-SP0
+2024-04-29 01:12:01,369 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:89:c1:6d:24:4b
+2024-04-29 01:12:06,439 | MainThread   | [INFO    ] | _connect            |: Connected to c0:89:c1:6d:24:4b
+2024-04-29 01:26:51,213 | MainThread   | [INFO    ] | disconnect_handler  |: Disconnected from C0:89:C1:6D:24:4B
+2024-04-29 01:27:35,580 | MainThread   | [INFO    ] | _connect            |: Looking for Artemis Nano Peripheral Device: c0:89:c1:6d:24:4b
+2024-04-29 01:27:40,171 | MainThread   | [INFO    ] | _connect            |: Connected to c0:89:c1:6d:24:4b
+2024-04-29 01:57:42,305 | MainThread   | [INFO    ] | disconnect_handler  |: Disconnected from C0:89:C1:6D:24:4B
+2024-04-29 15:20:30,625 | MainThread   | [INFO    ] | exit_handler        |: Exiting...
+2024-04-29 15:20:30,627 | MainThread   | [WARNING ] | exit_handler        |: Could not disconnect before exiting
+2024-04-29 15:20:30,628 | MainThread   | [WARNING ] | exit_handler        |: Not connected to a BLE device
+2024-04-29 15:20:31,120 | MainThread   | [WARNING ] | __del__             |: Could not delete BaseBLEController instance before exiting
+2024-04-29 15:20:31,134 | MainThread   | [WARNING ] | __del__             |: [WinError 10038] An operation was attempted on something that is not a socket
+2024-04-29 15:20:35,469 | MainThread   | [DEBUG   ] | <module>            |: debug
+2024-04-29 15:20:35,470 | MainThread   | [INFO    ] | <module>            |: info
+2024-04-29 15:20:35,472 | MainThread   | [WARNING ] | <module>            |: warning
+2024-04-29 15:20:35,472 | MainThread   | [ERROR   ] | <module>            |: error
+2024-04-29 15:20:35,473 | MainThread   | [CRITICAL] | <module>            |: critical
+2024-04-29 16:50:44,795 | MainThread   | [DEBUG   ] | <module>            |: debug
+2024-04-29 16:50:44,795 | MainThread   | [INFO    ] | <module>            |: info
+2024-04-29 16:50:44,797 | MainThread   | [WARNING ] | <module>            |: warning
+2024-04-29 16:50:44,798 | MainThread   | [ERROR   ] | <module>            |: error
+2024-04-29 16:50:44,799 | MainThread   | [CRITICAL] | <module>            |: critical
+2024-05-01 15:10:52,294 | MainThread   | [DEBUG   ] | <module>            |: debug
+2024-05-01 15:10:52,294 | MainThread   | [INFO    ] | <module>            |: info
+2024-05-01 15:10:52,298 | MainThread   | [WARNING ] | <module>            |: warning
+2024-05-01 15:10:52,298 | MainThread   | [ERROR   ] | <module>            |: error
+2024-05-01 15:10:52,299 | MainThread   | [CRITICAL] | <module>            |: critical
+2024-05-02 11:22:26,673 | MainThread   | [DEBUG   ] | <module>            |: debug
+2024-05-02 11:22:26,675 | MainThread   | [INFO    ] | <module>            |: info
+2024-05-02 11:22:26,676 | MainThread   | [WARNING ] | <module>            |: warning
+2024-05-02 11:22:26,676 | MainThread   | [ERROR   ] | <module>            |: error
+2024-05-02 11:22:26,677 | MainThread   | [CRITICAL] | <module>            |: critical

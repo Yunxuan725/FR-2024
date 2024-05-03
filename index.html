@@ -37,6 +37,8 @@
                     <a class="list-group-item list-group-item-light p-3" href="#lab4">Lab 4</a>
                     <a class="list-group-item list-group-item-light p-3" href="#lab5">Lab 5</a>
                     <a class="list-group-item list-group-item-light p-3" href="#lab6">Lab 6</a>
+                    <a class="list-group-item list-group-item-light p-3" href="#lab7">Lab 7</a>
+                    <a class="list-group-item list-group-item-light p-3" href="#lab8">Lab 8</a>
                 </div>
             </div>
             <!-- Page content wrapper-->
@@ -433,7 +435,7 @@
                           <img src="images/Lab2/p28.png" alt="IMU_code3" style="width:45%; height:auto;">
                           <img src="images/Lab2/p29.png" alt="IMU_code4" style="width:50%; height:auto;">
                         </div>
-                        <h5>The following Python code processes the receieved data to calculate the sample rate.
+                        <h5>The following Python code processes the received data to calculate the sample rate.
                           310 samples are collected per second over a nearly
                           5-second interval. </h5>
                         <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
@@ -474,26 +476,796 @@
                     <!-- Lab 3 content -->
                     <div id="lab3" class="lab-section">
                         <h2>Lab 3</h2>
-                        <p>Content for Lab 3...</p>
-                        <!-- ... more content for Lab 3 ... -->
+                        <h4>Objectives</h4>
+                        <h5>The objective of this lab is to understand how Time of Flight (ToF) sensors operate and integrate
+                          them with the robot, enhancing its navigation capabilities. By examining the sensor's accuracy and
+                          sampling rate, we can determine the optimal speed for the robot. The lab's goal is to achieve a precise
+                          and rapid response from the sensors to enable the robot to navigate swiftly and safely.</h5>
+                        <hr>
+                        <h4>Prelab</h4>
+                        <h5>For the VL53L1X ToF sensor in this lab, the default I2C address is 0x52, according to its datasheet.
+                          To avoid address conflict when using two sensors on the same I2C bus, we can either programmatically
+                          change the sensor's I2C address or enable them separately via their shutdown pins. Address Changing
+                          Method allows both sensors to operate simultaneously, potentially improving data collection speed,
+                          but it requires more complex initial setup and programming to manage addresses. The Shutdown Pin Method
+                          enables only one sensor at a time, avoiding the complexity of changing sensor addresses. </h5>
+                        <h5>According to the VL53L1X sensor's datasheet, the full field of view (FoV) is ~27 °. Optimal sensor
+                          placement on the car should cover the widest possible area to detect obstacles effectively. In this
+                          case, one sensor can be set at the front center for direct path detection, while another is placed on
+                          the left/right side to cover wider areas and detect objects not directly in the path. This setup allows
+                          for a broad detection range, covering both the immediate path and potential obstacles approaching from
+                          angles. However, obstacles directly below or above the sensors' FoV might be missed.</h5>
+                        <h5>Given that two ToF sensors mounted on the front and side of the robot, Address Changing Method is chosen,
+                          because it allows both sensors to be active simultaneously, providing real-time data from different
+                          angles, which is crucial for effective obstacle detection and navigation. The final wiring diagram is
+                          below.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab3/p1.png" alt="circuit_ToF" style="width:40%; height:auto;">
+                        </div>
+                        <hr>
+                        <h4>Connection</h4>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab3/p2.png" alt="circuit_ToF2" style="width:40%; height:auto;">
+                        </div>
+                        <h4>One ToF</h4>
+                        <h5>The address shown in the serial monitor (0x29) does not match the I2C address provided in the
+                          datasheet (0x52). The address in the datasheet is written in 7-bit format, while Arduino represents it
+                          in 8-bit. The discrepancy can occur because the 7-bit address is shifted left to add the read/write bit.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab3/p3.png" alt="I2C_address" style="width:35%; height:auto;">
+                        </div>
+                        <h5>The maximum range of the ToF sensor's three modes is shown in the table below. Short Mode excels in
+                          conditions with strong ambient light, offering stable performance, but at the expense of range,
+                          capping at 1.36m. Medium Mode is the compromise, providing a moderate range up to 2.9m and better
+                          performance in varied lighting than Long Mode. Long Mode allows for the greatest range in the dark,
+                          but its capability is significantly reduced under bright conditions. For a robot operating in well-lit
+                          indoor environments, Short Mode should be used due to its strong performance under ambient light. </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab3/p4.png" alt="ToF_distance_table" style="width:50%; height:auto;">
+                        </div>
+                        <h5>Based on the example code located in "..\Arduino\libraries\SparkFun_VL53L1X_4m_Laser_Distance_Sensor\examples\Example_1_ReadDistance,"
+                          I wrote the following function to store ToF readings in an array for later transmission via BLE.
+                          The results and sampling rate are displayed on the right screenshot. (Note: In subsequent labs,
+                          I discovered that initiating startRanging() and stopRanging() for each reading is unnecessary. Running
+                          these commands only at the start and end of data collection significantly enhances the sampling rate.)</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab3/p5.png" alt="ToF_data_code" style="width:45%; height:auto;">
+                          <img src="images/Lab3/p6.png" alt="ToF_result" style="width:50%; height:auto;">
+                        </div>
+                        <h5>The ToF sensor was positioned against the wall at 12 different distances as specified in the code below.
+                          For each distance, 31 readings were collected, and their mean and standard deviation were calculated.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab3/p7.png" alt="ToF_readings_compare" style="width:60%; height:auto;">
+                        </div>
+                        <h5>The left plot shows the measured average distance by ToF versus actual distance, and the right plot depicts
+                          the difference between the measured and actual distances. From these plots and the printed standard deviations,
+                          it is evident that in Short Mode the maximum reliable measurement distance is approximately 1.4 meters,
+                          which agrees with the table from the data sheet.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab3/p9.png" alt="ToF_compare1" style="width:55%; height:auto;">
+                          <img src="images/Lab3/p10.png" alt="ToF_compare2" style="width:45%; height:auto;">
+                        </div>
+                        <hr>
+                        <h4>Two ToF</h4>
+                        <h5>As described in the prelab, the Address Changing Method was selected. The following code will change the
+                          I2C address of one ToF sensor while the other is powered off. After the address change, both ToF sensors will
+                          be activated.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab3/p12.png" alt="Address_Changing" style="width:50%; height:auto;">
+                        </div>
+                        <h5>The code below is tested and the resulting plot demonstrates that both sensors are functioning independently.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab3/p13.png" alt="ToF2_code" style="width:50%; height:auto;">
+                          <img src="images/Lab3/p14.png" alt="ToF2_result" style="width:45%; height:auto;">
+                        </div>
+                        <h5>Below is the function designed to store ToF readings in arrays for subsequent BLE transmission.
+                          The data is also printed in Python, achieving a sample rate of 17 samples per second.
+                          The use of CheckForDataReady() in a while-loop condition significantly reduces the sample rate and
+                          limits the board's ability to perform other tasks. Additionally, as noted earlier, the unnecessary
+                          repetition of startRanging() and stopRanging() also reduces the sample rate.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab3/p15.png" alt="ToF2_code2" style="width:45%; height:auto;">
+                          <img src="images/Lab3/p16.png" alt="ToF2_result2" style="width:50%; height:auto;">
+                        </div>
+                        <hr>
+                        <h4>5000 Level: Infrared Distance Sensors </h4>
+                        <h5>Except for ToF sensors, two other common types of IR sensors are Triangulation-Based and Amplitude-Based.
+                          ToF sensors measure the round-trip time of light, offering high accuracy and range, independent of object properties.
+                          They perform well in various lighting conditions but are more expensive and complex to integrate.
+                          Triangulation-Based IR sensors measure distance by analyzing the angle of returned light, making them suitable
+                          for precise short-range measurements. They are complex and can struggle with transparent or reflective surfaces.
+                          Amplitude-Based IR sensors estimate distance by measuring the intensity of reflected light. They are cost-effective
+                          and simple, but their accuracy varies with object color and surface reflectivity, limiting their reliability for
+                          precise measurements.</h5>
+                        <h4>5000 Level: ToF Sensor on Different Surafce Condition </h4>
+                        <h5>The ToF sensor was positioned against a surface at 200mm, and 31 readings were collected under four different
+                          conditions involving variations in color and surface types. The glossy surfaces tested are those of plastic folders,
+                          and the matte surfaces are those of cloth. As shown in the table below, the measured distances are all reasonably close
+                          to 200mm, demonstrating the ToF sensor's ability to measure distances independent of object properties. However, slight
+                          variations in distance readings suggest that surface type and color might still have minor effects on
+                          measurement accuracy.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab3/p18.png" alt="ToF_tc" style="width:70%; height:auto;">
+                        </div>
+                        <hr>
                     </div>
 
                     <div id="lab4" class="lab-section">
                         <h2>Lab 4</h2>
-                        <p>Content for Lab 4...</p>
-                        <!-- ... more content for Lab 4 ... -->
+                        <h4>Objectives</h4>
+                        <h5>The objectives of this lab are to transition from manual to open-loop control of a car using
+                          Arduino and Python, involving setting up motor drivers, controlling motors via PWM signals, and
+                          programming the car to execute predefined maneuvers autonomously. </h5>
+                        <hr>
+                        <h4>Prelab</h4>
+                        <h5>The pins labeled with a tilde (~) represent PWM-capable pins on the Artemis, which are
+                          suitable for motor control. According to the picture below, pins 7, 9, 11, and 12 are used.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab4/p1.png" alt="Artemis_pins" style="width:40%; height:auto;">
+                        </div>
+                        <h5>The motors require more current, especially under load or during start-up, which is why a battery
+                          with a larger capacity of 850mAh is used for them. Conversely, the Artemis board has a lower power
+                          requirement and is effectively powered by the 650mAh battery. This arrangement helps prevent brownouts
+                          or resets on the microcontroller due to power surges from the motors. The final wiring diagram is below.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab4/p2.png" alt="Motor_wiring" style="width:40%; height:auto;">
+                        </div>
+                        <hr>
+                        <h4>1. Motor driver hookup</h4>
+                        <h5>The code snippet to generate PWM signals and oscilloscope hookup is shown below.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab4/p3.png" alt="md_testing" style="width:40%; height:auto;">
+                          <img src="images/Lab4/p4.png" alt="md_wiring" style="width:45%; height:auto;">
+                        </div>
+                        <h5>The output pins of motor driver are connected to an oscilloscope to visualize the PWM signals.
+                          Channel 1 (Yellow trace) shows the PWM signal for motorA1, with a set duty cycle of 50%. Channel 2
+                          (Blue trace) represents motorA2, with the PWM signal turned off (0% duty cycle). The oscilloscope reading
+                          indicates the wiring is correct, and we are ready to mount the motor driver on the robot.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab4/p5.png" alt="Oscillscope" style="width:40%; height:auto;">
+                        </div>
+                        <h5>One of the motor driver is hooked up like the wiring diagram in prelab. The video below and corresponding
+                          code snippet showcase a simple open-loop control system applied to a robot’s wheel. The setup involves
+                          driving one wheel of the robot forward, then backward, and finally stopping. </h5>
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                          <iframe width="560" height="315" src="https://www.youtube.com/embed/2Y5B4GdXTjA"
+                          title="Drive one wheel" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <h5>The image shows the fully assembled robot with all critical components installed and properly wired. </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab4/p6.png" alt="Robot_wiring" style="width:40%; height:auto;">
+                        </div>
+                        <hr>
+                        <h4>2. BLE-Controlled Robotic Movement</h4>
+                        <h5>The provided code snippet and setup allow for the control of the robot's speed and direction via
+                          commands sent from a PC to the Artemis board using BLE. The motor_move() function processes these commands
+                          to control the robot. </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab4/p8.png" alt="md_ble1" style="width:30%; height:auto;">
+                          <img src="images/Lab4/p10.png" alt="md_ble2" style="width:40%; height:auto;">
+                        </div>
+                        <h5>This video demonstrates the correct setup and operation of a robot powered by two batteries, following the
+                          wiring diagram in the prelab. Initially, the robot moves forward. Upon receiving
+                          a new MOVE command sent via BLE, the robot's wheels immediately
+                          switch direction to spin backward.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                          <iframe width="560" height="315" src="https://www.youtube.com/embed/xsxGcmj-auo"
+                          title="BLE controlled motion" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <h5>The code script controls the robot's forward motion by incrementally increasing the speed of both motors.
+                          It starts with a PWM of 32 and increases the speed by 1 unit every 2 seconds, up to a maximum of 41.
+                          A 2-second stop is implemented between each speed change to ensure the robot is stationary before initiating the next movement.
+                          The minimum PWM value required to start the car moving forward is determined to be 38. Similarly,
+                          The minimum PWM value for an on-axis turn is (110, -110). However, the car turns too slowly, and the motor driver becomes
+                          very hot due to power dissipation.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab4/p12.png" alt="minPWM" style="width:35%; height:auto;">
+                        </div>
+                        <h5>When the left and right motors have PWM values of 112 and 100, respectively, the car moves straight
+                          forward with a calibration factor of 1.12. The video below shows the robot's left wheel aligned with the seam in the wood floor Initially,
+                          and with the calibration factor of 1.12, the car's left wheel remains on the seam after traveling a long distance.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                          <img src="images/Lab4/p13.png" alt="calibration_factor" style="width:35%; height:auto;">
+                          <iframe width="560" height="315" src="https://www.youtube.com/embed/T8871G3fkKI?feature=share"
+                          title="Move Straight" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <h5>The video demonstrates a simple open-loop control system. The command to move the car forward, backward,
+                          and then stop is sent sequentially via BLE. The car executes these commands as expected. </h5>
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                          <img src="images/Lab4/p14.png" alt="calibration_factor" style="width:35%; height:auto;">
+                          <iframe width="560" height="315" src="https://www.youtube.com/embed/5Ue1qsWnl5c?feature=share"
+                          title="Move Straight" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <hr>
+                        <h4>5000 Level: analogWrite frequency </h4>
+                        <h5>The code snippet below is used to print the delay, in milliseconds, between four analogWrite() calls,
+                          as motor control requires four separate PWM outputs. The delay is approximately 10.44 ms, which corresponds to
+                          a frequency of around 95.8 Hz. The default PWM frequency generated by analogWrite() is approximately 500 Hz.
+                          If the control delay occurs more frequently than the PWM frequency, unintended behavior can occur due to conflicting
+                          signals. In our case, the 95.8 Hz frequency is smaller, so this frequency is suitable.
+                          Configuring a higher PWM frequency can offer certain advantages, like reducing audible noise and improving
+                          motor control, particularly during low-speed operations. This is due to the smoother voltage waveform produced,
+                          which the motor can interpret more accurately.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab4/p16.png" alt="analog_freq" style="width:35%; height:auto;">
+                        </div>
+                        <hr>
+                        <h4>5000 Level: Minimum PWM value in motion </h4>
+                        <h5>Remove the 2-second stop from th previous code, add calibration factor and make the PWM with
+                          decrement of 1, as shown in code below. The car will start initially at moving, and stop at PWM values less than
+                          (34, 31), which is lower than the default minimum PWM of 38 needed to initially move the car. </h5>
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                          <img src="images/Lab4/p15.png" alt="minPWM2" style="width:35%; height:auto;">
+                          <iframe width="560" height="315" src="https://www.youtube.com/embed/Dj8gG8X3X74"
+                          title="minPWM2" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <hr>
                     </div>
 
                     <div id="lab5" class="lab-section">
                         <h2>Lab 5</h2>
-                        <p>Content for Lab 5...</p>
-                        <!-- ... more content for Lab 5 ... -->
+                        <h4>Objectives</h4>
+                        <h5>The objectives of this lab are to implement a linear PID control system on the robot car so that it can stop at
+                          a set distance from objects. Distance readings from the ToF sensor and PWM output by PID control, with associated
+                          timestamps, will be transmitted via BLE for analysis and optimization of the PID parameters.</h5>
+                        <hr>
+                        <h4>Prelab</h4>
+                        <h5>To allow for other tasks while collecting ToF data, the save_ToF() function needs to be non-blocking. The left code snippet is the older
+                          version with checkForDataReady() in the while loop, while the right one is revised with the if statement. Additionally, in older version,
+                          the redundant use of startRanging() and stopRanging() also slows down the sample rate. This code snippet stores the ToF readings
+                          in arrays for later transmission via BLE.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab5/p2.png" alt="ToF_old" style="width:40%; height:auto;">
+                          <img src="images/Lab5/p1.png" alt="ToF_new" style="width:40%; height:auto;">
+                        </div>
+                        <h5>The left code snippet shows the send_ToF() function, which sends the saved array via BLE. Initially, both isCollectingToF
+                          and isSendingToF flags are false. When the GET_DISTANCE command is received from the PC, isCollectingToF becomes true,
+                          and the save_ToF() function records ToF readings into arrays for a limited time. Once the time limit is reached,
+                          isCollectingToF is set to false, and isSendingToF is set to true, so all stored data is sent at once. This allows us
+                          to send other commands via BLE while the Artemis reads and stores data. (Note: When the Artemis is sending saved data,
+                          it cannot respond to new commands.)</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab5/p3.png" alt="ToF_old2" style="width:40%; height:auto;">
+                          <img src="images/Lab5/p4.png" alt="ToF_new2" style="width:35%; height:auto;">
+                        </div>
+                        <h5>Below is the notification_handler that will save the received message from the board into arrays in Python.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab5/p5.png" alt="minPWM" style="width:35%; height:auto;">
+                        </div>
+                        <hr>
+                        <h4>1. PID implementation</h4>
+                        <h5>First, I modified the motor_move() function to accept
+                          positive or negative PWM values. Positive PWM values spin the motor forward, while negative values
+                          spin it backward.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab5/p6.png" alt="motor_move2" style="width:35%; height:auto;">
+                        </div>
+                        <h5>Second, I implemented the PID controller to calculate the PWM output for motor speed control. In the equation,
+                          the proportional term (Kp) represents the difference between the current distance and the set distance.
+                          The integral term (Ki) is the integral of the error over time, and the derivative term (Kd) is the rate of change
+                          of the error. I did not include multiplication/division of dt(time difference) in integral/dirivative term calculation,
+                          since the sampling rate is consistent for this part of the lab. </h5>
+
+                        <h5>When the current distance is close to the set distance, the proportional term might not generate enough force to
+                          move the robot, causing a steady-state error. In such cases, the integral term can grow over time and eventually
+                          become strong enough to overcome the steady-state error, determining where the car will stop. To prevent integral
+                          wind-up, I used the maxESum and constrain() functions to limit the integral's growth before the car first reaches
+                          the set distance. For example, if the car takes a long time to reach the set distance for the first time, the error
+                          will remain positive for a long period. By the time the error turns negative, the integral will be a large
+                          positive number, making it unable to be negative again, and it will fail to reduce steady-state error when
+                          the proportional term is weak. Additionally, a strong integral term can cause overshoot, particularly when the
+                          proportional term is strong. Wind-up protection limits the integral term's effects and accumulation,
+                          maintaining functionality across varying strengths of the proportional term.
+                        </h5>
+                        <h5>The derivative term add resistance to the car, which slows down the acceleration/deceleration of the car. Thus, at high acceleration/deceleration,
+                          it will have greater effect. It can reduce the overshoot while uneffect the system when the car is nearly stable or at rest.
+                        </h5>
+                        <h5> In this code snippet below, I also added minimum and maximum PWM constraints to ensure
+                          the output remains within the appropriate range.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab5/p9.png" alt="PID_eqn" style="width:40%; height:auto;">
+                          <img src="images/Lab5/p8.png" alt="PID_calc" style="width:35%; height:auto;">
+                        </div>
+                        <h5> As shown in the left screenshot, PID calculation performs ~106 times per second, while ToF read only ~38 samples per second.
+                          Thus, we need more data point for PID calculation when no new ToF reading received.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab5/p11.png" alt="PIDrate" style="width:50%; height:auto;">
+                        </div>
+
+                        <h5> In left code snippet below, I implement extrapolation function, which predict the current distance
+                          when ToF is not reading new data. The right plot shows a comparsion
+                          between raw ToF reading and extrapolation result.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab5/p7.png" alt="extrapolation" style="width:50%; height:auto;">
+                          <img src="images/Lab5/p12.png" alt="extrapolation_compare" style="width:35%; height:auto;">
+                        </div>
+
+                        <h5> Lastly, I added the isLPID flag and linear_PID() function to the main loop. </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab5/p10.png" alt="linearPID" style="width:40%; height:auto;">
+                          <img src="images/Lab5/p13.png" alt="loopmain" style="width:30%; height:auto;">
+                        </div>
+                        <h5>To access the PID control via BLE, two command are added as shown below. The two command allows
+                          me to change the Kp, Ki, Kd paramters, add wind-up protection, modify the PWM output range from PID,
+                          and adjust the set distance on PC.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab5/p14.png" alt="cmd51" style="width:38%; height:auto;">
+                          <img src="images/Lab5/p15.png" alt="cmd52" style="width:35%; height:auto;">
+                        </div>
+                        <hr>
+                        <h4>2. PID Parameters Optimization</h4>
+                        <h5>Below is the example code in Python. By sending command to the Artemis, the PID paramters can be modified
+                          and received data will be stored into arrays. minPWM is set to be 38, which is the measured minimum PWM for the car to
+                          move forward in last lab.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab5/p16.png" alt="BLEPID1" style="width:38%; height:auto;">
+                          <img src="images/Lab5/p17.png" alt="BLEhandler" style="width:38%; height:auto;">
+                        </div>
+                        <h5>Heuristic procedure #2 is used to optimize the Kp, Ki and Kd.
+                          And the table below shows one iteration of my PID optimization.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab5/p18.png" alt="BLEPID1" style="width:45%; height:auto;">
+                          <img src="images/Lab5/p19.png" alt="BLEhandler" style="width:50%; height:auto;">
+                        </div>
+                        <h5>Below is the plot for trail 5 in the table, although the car stops at desired position, the PWM output is noisy,
+                          indicating the Kd term might be too high. But lowing the Kd term will make the car fail to converge within 5 seconds.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab5/p20.png" alt="LPID11" style="width:45%; height:auto;">
+                          <img src="images/Lab5/p21.png" alt="LPID12" style="width:50%; height:auto;">
+                        </div>
+                        <h5>The final solution is to increase Ki term significantly for fast converges, while adding a wind-up protection to limit the
+                          effect of integral term before the car get close to the set distance. Below is the comparison between with and without wind-up
+                          protection.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab5/p22.png" alt="LPID13" style="width:45%; height:auto;">
+                          <img src="images/Lab5/p23.png" alt="LPID14" style="width:50%; height:auto;">
+                        </div>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab5/p24.png" alt="LPID15" style="width:45%; height:auto;">
+                          <img src="images/Lab5/p25.png" alt="LPID16" style="width:50%; height:auto;">
+                        </div>
+                        <h5>The video below is the final result with (Kp,Ki,Kd) = (0.05, 0.03, 0.2) and maxEsum of 100. The start distance is
+                          about 1400mm with the set distance of 300mm.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                          <iframe width="560" height="315" src="https://www.youtube.com/embed/SH9qfeRo214"
+                          title="BLE controlled motion" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <h4>5000 Level: Wind-up protection </h4>
+                        <h5>As descibed in ealier section, the wind-up protection is implemented by "errorSum = constrain(errorSum, -maxESum, maxESum);"
+                          For example, the final result has Ki=0.03 and maxESum of 100, so the maximum integral term magnitude is 3. When the car is far from
+                          set distance, propotional term dominates and adding 3 to PID output is not significantly effecting the speed of the car.
+                          Thus, overshoot is reduced. According to the code ealier, the propotional term magnitude will be 0 if the error is less than
+                          1/Kp = 1/0.05 = 20mm. At this point, the integral term of 3 will lead to nonzero PID output, so the car can move and eliminate steady-state error.
+                        </h5>
+                        <h5>
+                        A significant integral build-up occur when the control system cannot quickly reach the setpoint due to physical limitations. For example,
+                        if a car is far from the set distance and has difficulty moving fast on a carpet, the integral term will continue to increase due to the
+                        persistent error. By the time the car gets closer to the set distance, the accumulated integral could lead to overshoot or even make the
+                        system uncontrollable. Wind-up protection prevents this by limiting the integral's growth, allowing for more manageable adjustments.
+                        </h5>
                     </div>
 
                     <div id="lab6" class="lab-section">
                         <h2>Lab 6</h2>
-                        <p>Content for Lab 6...</p>
-                        <!-- ... more content for Lab 6 ... -->
+                        <h4>Objectives</h4>
+                        <h5>The objectives of this lab are to implement a PID control system on the robot car so that it can rotate to any
+                          set yaw angle or stay in place when an external force changes its yaw angle. Yaw angle will be estimated based
+                          on gyroscope readings from the IMU sensor. The estimated yaw angle and PWM output by PID control, with associated
+                          timestamps, will be transmitted via BLE for analysis and optimization of the PID parameters.</h5>
+                        <hr>
+                        <h4>Prelab</h4>
+                        <h5>The data transmission, similar to Lab 5, is managed by the isCollectingIMU and isSendingIMU flags, and the save_IMU()
+                          and send_IMU() functions. The only difference is that I added a processIMUData() function to convert gyroscope
+                          readings into yaw angles and store them in arrays. The gyroscope reading gz is measured in degrees per second.
+                          According to the Riemann sum method, the estimated yaw angle is the product of the time difference between gyroscope
+                          readings and gz. Yaw angle is more useful for data analysis, so gz is not stored.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab6/p4.png" alt="loop6" style="width:30%; height:auto;">
+                          <img src="images/Lab6/p1.png" alt="sendIMU" style="width:45%; height:auto;">
+                        </div>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab6/p3.png" alt="process" style="width:40%; height:auto;">
+                        </div>
+                        <h5>However, the gyroscope reading is noisy and not centered around zero, even when the IMU is at rest. This
+                          causes the estimated yaw angle to drift over time, by about 0.5 degrees per second. The PID-controlled spin
+                          motion is performed within 2 seconds, making this drift negligible when the robot is moving. However, the
+                          drift is noticeable when the robot is stationary and requires a simple filter. I collected 55,121 gyroscope
+                          readings and wrote the following code to check the percentage of readings above or below a given threshold.
+                          For gz, less than 0.2% of the data falls outside the range of [-0.2,0.8]. By filtering gz readings in this
+                          range, the drift of the estimated yaw becomes negligible, and the estimated yaw of a moving car
+                          remains unaffected.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab6/p5.png" alt="gzreadings" style="width:60%; height:auto;">
+                        </div>
+
+                        <h5>The final processIMUData() function with simple filter is shown in code snippet below.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab6/p2.png" alt="process" style="width:50%; height:auto;">
+                        </div>
+                        <h5>I have also manually turned the car 90 degree clockwise and counter-clockwise, the result is printed
+                        below. The last columns are the yaw angle readings. 89.86 and -88.81 are close enough to 90 degree, so calibration
+                        factor is not needed.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab6/p15.png" alt="turn90" style="width:30%; height:auto;">
+                          <img src="images/Lab6/p16.png" alt="turn-90" style="width:30%; height:auto;">
+                        </div>
+                        <h5>The following code in Python shows the notificantion handler, and the plot is yaw angle degree versus time.
+                          The sample rate is 277 samples per second over 5 seconds.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab6/p7.png" alt="BLEyaw1" style="width:55%; height:auto;">
+                          <img src="images/Lab6/p8.png" alt="BLEyaw2" style="width:40%; height:auto;">
+                        </div>
+                        <hr>
+                        <h4>1. PID implementation</h4>
+                        <h5>The following code snippet shows the orientation_PID() and calculatePID() functions. The concept of
+                          orientation_PID() is the same as linear_PID() in Lab 5, except that distance is replaced with yaw.
+                          Compared to Lab 5, the new calculatePID() function uses the time difference between readings, dtIMU,
+                          since the IMU sample rate varies from 100 to 300 samples/s. In this case, the dt matters.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab6/p9.png" alt="opid" style="width:50%; height:auto;">
+                        </div>
+                        <h5> In the PID comtroller, we are taking the derivative of error, while the error is difference between integral of gz and set yaw angle.
+                          In mathematics, if signal A is the integral of signal B, then taking the derivative of signal A returns signal B.
+                          However, in PID, this aproach can help reveal the relationship between integrated error and its rate of change.
+                        </h5>
+                        <h5>The main loop is now shown below.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab6/p10.png" alt="opidmainloop" style="width:40%; height:auto;">
+                        </div>
+                        <h5>The following code contains the commands that the board can receive. SET_YAW_PID allows me to
+                          change the PID parameters, and this time I added a maxPWMYAW variable. Although the gyroscope has
+                          a programmable full-scale range of ±250 dps, ±500 dps, ±1000 dps, and ±2000 dps, the yaw reading is
+                          still inaccurate when the robot turns fast but below 250 dps. The maxPWMYAW variable helps limit the maximum on-axis
+                          turn speed. I can change the set yaw angle multiple times using the SET_ANGLE command, enabling the car
+                          to turn to any angle when the orientation PID is activated. The line previousErrorYaw = 0 reset the last error for reducing
+                          the derivative kick, which a sudden spike in the derivative action caused by an abrupt change in the setpoint.
+                          The ORIENT_PID command activates the orientation
+                          PID and sets its runtime through the maxTime variable.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab6/p11.png" alt="cmd611" style="width:40%; height:auto;">
+                          <img src="images/Lab6/p12.png" alt="cmd612" style="width:40%; height:auto;">
+                        </div>
+                        <h5>I did not implement a low-pass filter for the derivative term in this lab. Only when Kd is high enough,
+                          the derivative term is sensitive to noise, which can cause instability and oscillations in the system. A low-pass filter
+                          helps smooth the derivative term by reducing noise. As described in Lab 5, the derivative term adds resistance to the system,
+                          and the on-axis turn of a car with rubber wheels already provides significant resistance. Thus, I only needed a small or zero
+                          Kd value for this lab, making a low-pass filter unnecessary. After PID parameter optimization, I found that the car only needed
+                          PI orientation control, so the derivative term was not required.
+                        </h5>
+                        <hr>
+                        <h4>2. PID Parameters Optimization</h4>
+                        <h5>During PID optimization, I noticed that the yaw readings of left turns (180 degrees) are consistently more accurate than those
+                          of right turns. This discrepancy may be due to the car's physical setup. The image on the left shows the setting I used in Lab 4,
+                           where the IMU is placed near the left rear wheel. To address this, I moved the IMU to the car's center, as shown in the right
+                           picture. Now, the yaw readings for both left and right turns are accurate.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab6/p13.png" alt="cmd611" style="width:30%; height:auto;">
+                          <img src="images/Lab6/p14.png" alt="cmd612" style="width:30%; height:auto;">
+                        </div>
+
+                        </h5>Below is the example code in Python. By sending command to the Artemis, the PID paramters can be modified and received data
+                        will be stored into arrays.The sample rate is 192 samples/s.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab6/p18.png" alt="nh1" style="width:50%; height:auto;">
+                          <img src="images/Lab6/p19.png" alt="nh2" style="width:30%; height:auto;">
+                        </div>
+                        <h5>Heuristic procedure #2 is used to optimize the Kp, Ki and Kd.
+                          And the table below shows one iteration of my PID optimization.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab5/p18.png" alt="BLEPID2" style="width:45%; height:auto;">
+                          <img src="images/Lab6/p20.png" alt="BLEhandler2" style="width:50%; height:auto;">
+                        </div>
+                        <h5>Following the iteration step, I eventually got optimized PID parameters, but when I switched the set yaw
+                          angle to 180 degrees, the parameters were not working well. This caused a large overshoot and inability to
+                          converge and stop. If I set optimized PID parameters for a 180-degree turn, it takes too long for a 90-degree
+                          turn. Thus, I decided to set wind-up protection and modify the minimum turning speed first. </h5>
+                        <h5>
+                          Previously, I had minPWM=110, which barely enabled the car to turn. I first changed the minPWM to 130, which
+                          is slightly higher to ensure the car can turn slowly while also reducing power dissipation. For wind-up protection,
+                          it is hard to observe the maxESum magnitude, but I can easily control the maximum magnitude of the integral term to
+                          add to the PID output. Thus, I set maxESum = 12/Ki, so the integral term can add only 12 to the PID at most.
+                        </h5>
+                        <h5>
+                          Now the PID parameter optimization becomes much easier. Below is the P-controlled system for a 180-degree turn in 3 seconds.
+                          It converges quickly with minimal steady-state error.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab6/p21.png" alt="resultOPID1" style="width:40%; height:auto;">
+                        </div>
+                        <h5>
+                          After implement a small Ki, the PI control works well for both 90 and 180 degree turn, as shown in plots below.
+                          Since no significant overshoot is observed, I did not implement kd term.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab6/p22.png" alt="resultOPID2" style="width:40%; height:auto;">
+                          <img src="images/Lab6/p23.png" alt="resultOPID3" style="width:40%; height:auto;">
+                        </div>
+                        <h5>
+                          The stationary orientation control is also tested. The code below shows the car is first
+                          turn 90 degree and stay at rest. Then I push the car counter-clockwise and clockwise respectively.
+                          The car will turn back to set yaw of 90 degree. The video below demostrate these movements.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab6/p24.png" alt="resultOPID4" style="width:40%; height:auto;">
+                        </div>
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                          <iframe width="560" height="315" src="https://www.youtube.com/embed/VDDAmm9bBho"
+                          title="Orientation PID" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <hr>
+                        <h4>5000 Level: Wind-up protection </h4>
+                        <h5>
+                          The explanantion on wind-up protection is same as the lab 5. The only new discovery is to set
+                          maxESum be x/Ki, where x is the maximum PWM magnitude you want the integral term to contribute in PID output.
+                          This approach can save time for optimizing the maxESum. From the distance/yaw versus time plot, one can easily
+                          decided the x value.
+                        </h5>
+                    </div>
+
+                    <div id="lab7" class="lab-section">
+                        <h2>Lab 7</h2>
+                        <h4>Objectives</h4>
+                        <h5>The objective is to implement a Kalman Filter. Parameters like drag and momentum will be estimated using
+                          the car's step response. The goal is to apply the Kalman Filter with the estimated parameters to the
+                          distance data from a linear PID-controlled system and then compare the filtered data with the extrapolated
+                          data.</h5>
+                        <hr>
+                        <h4>1. Estimate drag and momentum</h4>
+                        <h5>The plot below is the PWM value and distance error in Lab 5, the maximum PWM is about 100, so maximum u of 100 is picked.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab5/p25.png" alt="LPID16" style="width:50%; height:auto;">
+                        </div>
+                        <h5>With the same send_ToF() and save_ToF() functions in lab5, I program a new command GET_DISTANCE that
+                          takes three paramters, t1, t2 and maxTime. The car will stay at rest for t1 ms, then drive forward at PWM of 100
+                          for (t2-t1) ms, and stop after maxTime ms.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab7/p2.png" alt="stepresp1" style="width:40%; height:auto;">
+                        </div>
+                        <h5>The plots below shows the step response of the car at
+                          (t1, t2, maxTime) = (1000,3200,4000). The car starts moving forward around
+                          1 second and crashes into the wall at around 2.4 seconds.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab7/p1.png" alt="stepresp2" style="width:45%; height:auto;">
+                          <img src="images/Lab7/p3.png" alt="stepresp3" style="width:45%; height:auto;">
+                        </div>
+                        <h5>We can get the speed in mm/s by taking the derivative of distance readings respect to time. From the speed data and
+                          the plot, we found the car eventually reaches steady state speed of ~1560 mm/s, marked by the red dashed line.
+                          Then, we can get he 90% steady speed of 1404 mm/s with rising time of 1.13 seconds.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab7/p5.png" alt="stepresp4" style="width:45%; height:auto;">
+                          <img src="images/Lab7/p4.png" alt="stepresp5" style="width:40%; height:auto;">
+                        </div>
+                        <h5></h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab7/p6.png" alt="stepresp6" style="width:60%; height:auto;">
+                        </div>
+                        <h5>Following the equation in the left screenshot below, the code snippet on the right
+                          calculate the estimated drag and momentum at maximum PWM of 100.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab7/p7.png" alt="stepresp7" style="width:45%; height:auto;">
+                          <img src="images/Lab7/p8.png" alt="stepresp8" style="width:40%; height:auto;">
+                        </div>
+                        <hr>
+                        <h4>2. Initialize Kalman Filter</h4>
+                        <h5>Based on the sample rate of 10.12 samples/s, the dt is estimated. Then matrices A and B, and their
+                          discretized matrices Ad and Bd are estimated. A m*n matrix C is also determined. In this case,
+                          m=1 because there is only one type of measurement (distance to the wall), and n = 2
+                          because there are two state variables (position and speed of the car).
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab7/p9.png" alt="kf1" style="width:60%; height:auto;">
+                          <img src="images/Lab7/p10.png" alt="kf2" style="width:40%; height:auto;">
+                        </div>
+                        <h5>In the following code snippet, I estimated Sig_u, Sig_z, and the initial guess on uncertainty matrix sigma.
+                          Sig_z represents the covariance of the measurement noise, which depends on the precision of the ToF sensor.
+                          I chose sigma_3 to be 20 mm, which is the standard deviation of the measurement noise.
+                          Sig_u represents the process noise covariance. The values of sigma_1 and sigma_2 reflect the expected
+                          uncertainty in the modeled position and speed, respectively. This uncertainty depends on the sampling rate of the system.
+                          Given a sampling rate of 1 sample per 0.1 seconds, the standard deviation of the position and speed after 1 second
+                          is estimated as sqrt(10^2/0.1) = 30 mm. Thus, both sigma_1 and sigma_2 are set to 30/1000, representing the
+                          standard deviation of the process noise for the position and speed. Now we have all paramters set for kalman filter.</h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab7/p11.png" alt="kf3" style="width:45%; height:auto;">
+                        </div>
+                        <hr>
+                        <h4>3. Implement and test Kalman Filter in Jupyter</h4>
+                        <h5>The left screenshot shows the one iteration of Kalman filter, including prediction and update steps. The function
+                          kf() in code snippet is the update step.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab7/p12.png" alt="kf4" style="width:50%; height:auto;">
+                          <img src="images/Lab7/p13.png" alt="kf5" style="width:50%; height:auto;">
+                        </div>
+                        <h5>The plot below shows the ToF readings and extrapolation data versus time. The data are from the linear PID
+                          control system in lab 5. I will apply Kalman Filter to these data in this lab.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab7/p18.png" alt="kfdata" style="width:45%; height:auto;">
+                        </div>
+                        <h5>By apply the iteration by for loop in code snippet, the Kalman filter is running at same frequency the ToF readings.
+                          The output from Kalman filter will have same data size as raw ToF reading. The result plot is shown below.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab7/p14.png" alt="kf6" style="width:45%; height:auto;">
+                          <img src="images/Lab7/p15.png" alt="kf7" style="width:50%; height:auto;">
+                        </div>
+                        <h5>The following to plot clearly shows that the Kalman Filter well predict the ToF readings, and this
+                          prediction is much more smoother than extrapolation and slightly smoother than raw ToF readings.
+                          In PID control, derivative term is usually sensitive to noise,
+                          the Kalman filter at this frequency might be helpful in our PID control system.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab7/p16.png" alt="kf8" style="width:50%; height:auto;">
+                          <img src="images/Lab7/p17.png" alt="kf9" style="width:50%; height:auto;">
+                        </div>
+                        <hr>
+                        <h4>5000 Level </h4>
+                        <h5> In order to run the Kalman filter more frequent than ToF sensor, I implement the following code.
+                          Variable dt determine the time difference between each Kalman filter prediction, so dt should be less than
+                          ToF sample rate of ~0.1 second per sample. If dt is greater than 0.1, the output will be same as previous section.
+                          New discretized matrices Ad and Bd are calculated. The while loop is added, so before the next reading is received,
+                          it will predict the distance without update step. Once new reading is received, update step will be performed.
+                        </h5>
+                        <h5> If we implement this in the robot, we need to adjust the code slightly. The variable next_time and condition
+                          in while loop should be replace by a flag isNewToF that can tell if the new reading is received. The while loop should be replaced
+                          by the if statement, since we want the code be non-blocking. The update step can also be inside of the
+                          if statement with isNewToF flag.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab7/p19.png" alt="kf10" style="width:45%; height:auto;">
+                        </div>
+                        <h5> The final plot below illustrates that the Kalman Filter results are noisy and less accurate compared
+                          to extrapolation. Adjusting sigma_1, sigma_2 and sigma_3
+                          did not improve the outcomes. For a more reliable implementation of the Kalman Filter, recalculating
+                          the drag and momentum and further parameter optimizations are required. However, in the case of our
+                          robot's linear PID system, extrapolation proves to be sufficiently effective. Implementing a Kalman
+                          Filter, while beneficial in some scenarios, can be complex and time-consuming.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab7/p20.png" alt="kf11" style="width:45%; height:auto;">
+                        </div>
+                    </div>
+
+                    <div id="lab8" class="lab-section">
+                        <h2>Lab 8</h2>
+                        <h4>Objectives</h4>
+                        <h5>The purpose of this lab is to integrate all previous work to perform fast stunts, showcasing the
+                          precision and speed of the robot. The robot begins at a designated line around 2 meters from the wall,
+                          accelerates forward, and initiates a 180-degree turn at the set distance of 914mm.
+                        </h5>
+                        <hr>
+                        <h4>Overview</h4>
+                        <h5> The concept of this lab is to combine the linear PID and orientation PID. The robot will initially be
+                          linear PID controlled. Then switch to orientation PID controlled around 914 mm away from the wall, and turn
+                          180 degrees. Lastly, the robot will drive forward and switch to linear PID controlled again. The above action can
+                          repeat until the set maxTime reached. The car will keep switching between linear and orientation PID.
+                        </h5>
+                        <h5> By combining the code from lab 5 and lab 6, the new main loop is shown below. The main difference is
+                          how I manage two flags, isLPID and isOPID. Since ToF readings are not useful when robot performs on-axis returns,
+                          isLPID is also controlling if the ToF is recording the distance data. But the IMU or yaw angle data will be recorded
+                          in either linear or orientation PID control. If the car is not driving straight in linear PID, when the orientation
+                          PID started, the error yaw in linear PID will also be eliminated.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab8/p1.png" alt="stunt1" style="width:40%; height:auto;">
+                        </div>
+                        <hr>
+                        <h4>1. Linear PID</h4>
+                        <h5> In this lab, we are not required precise stop at set distance, and the drift is allowed when the car suddenly
+                          switch from driving forward to turning. The purpose of Linear PID control is just avoiding the crash onto the wall.
+                          Thus, only proportional term is needed. As shown in the code snippet below, the SET_LINEAR_PID command only takes Kp,
+                          minimum and maximum PWM speed, and set distance for future optimization. The linear_PID() function is
+                          also simplified to only P controlled, so the robot speed will decrease as it approches the set distance but won't
+                          stop. I added the if statement in linear_PID(). Once the car pass the set distance, the system will switch to orientation
+                          PID by changing the flags, and the set yaw angle increase 180 degree.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab8/p2.png" alt="stunt2" style="width:35%; height:auto;">
+                          <img src="images/Lab8/p3.png" alt="stunt3" style="width:45%; height:auto;">
+                        </div>
+                        <h5> The new save_ToF() is shown below.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab8/p4.png" alt="stunt4" style="width:50%; height:auto;">
+                        </div>
+                        <hr>
+                        <h4>2. Orientation PID</h4>
+                        <h5> The calculatePID() function calculate the PID output and convert the output to PWM value, and
+                          processIMUData() function convert the gyroscope reading gz to yaw angles.  These two function remain
+                          the same as lab 5. I updated the orient_PID with two if statements. When 4 countinuous PID outputs
+                          are zero and the error yaw angle is less than 3 degrees, the robot will switch to linear PID control.
+                          In save_IMU(), I added the lastYaw variable so the first yaw reading for the orientation PID will the
+                          the last yaw reading from previous orientation PID.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab8/p5.png" alt="stunt5" style="width:50%; height:auto;">
+                          <img src="images/Lab8/p6.png" alt="stunt6" style="width:45%; height:auto;">
+                        </div>
+                        <h5> The command SET_YAW_PID takes a new parameter, yawCorrection, which is the calibration factor.
+                          When the car rotate fast, the yaw reading is inaccurate, so I added this parameter to
+                          processIMUData() function.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab8/p7.png" alt="stunt7" style="width:35%; height:auto;">
+                          <img src="images/Lab8/p8.png" alt="stunt8" style="width:45%; height:auto;">
+                        </div>
+                        <h5>The command PID will initialize the parameters and start the linear PID. This command takes
+                          the maxTime in ms, the robot will switch between linear and orientation PID for maxTime ms.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab8/p9.png" alt="stunt9" style="width:50%; height:auto;">
+                        </div>
+                        <hr>
+                        <h4>3. Stunt</h4>
+                        <h5>With the optimized PID paramters in previous lab, let the car start at ~700mm away from the wall
+                          and use a set distance of 300mm. By calling SET_LINEAR_PID, SET_YAW_PID and PID in order,
+                          the first successful stunt is shown below.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                          <iframe width="560" height="315" src="https://www.youtube.com/embed/4tz_omsjKJ8"
+                          title="BLE controlled motion" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <h5>And the corresponding distance and yaw readings with PWM output is shown below.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab8/p11.png" alt="stunt11" style="width:45%; height:auto;">
+                          <img src="images/Lab8/p10.png" alt="stunt10" style="width:45%; height:auto;">
+                        </div>
+                        <h5>Then I optimize the paramters when the robot start at 2 meters with set distance of 0.914m.
+                          The final stunt is shown below.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                          <iframe width="560" height="315" src="https://www.youtube.com/embed/09oc5LbatBQ?feature=share"
+                          title="BLE controlled motion" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <h5>And the corresponding distance and yaw readings with PWM output is shown below. </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab8/p12.png" alt="stunt11" style="width:45%; height:auto;">
+                          <img src="images/Lab8/p13.png" alt="stunt10" style="width:45%; height:auto;">
+                        </div>
+                        <h5>Put distance and yaw in same time scale, and use the red dash line to separate the plot
+                          into three regime. The left regime is linear PID coltrolled. Once the set distance is reached,
+                          orientation PID started as shown in middle regime. Once the orientation PID has five countinuous
+                          zero output and the error yaw less than three degrees, the linear PID is activated again in right
+                          regime.
+                        </h5>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                          <img src="images/Lab8/p14.png" alt="stunt11" style="width:45%; height:auto;">
+                        </div>
+
+
+
+
+
+
+
+
+
+                        <h4></h4>
+                        <h5></h5>
                     </div>
                 </div>
             </div>

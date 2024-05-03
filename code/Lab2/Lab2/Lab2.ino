@@ -29,8 +29,8 @@ volatile bool isCollectingData = false; //Read and store IMU data if true
 volatile bool isSendingData = false; ////Send stored IMU data if true
 unsigned long startTime = 0; 
 int dataIndex = 0; 
-const int maxData = 5000; //max data size for storing IMU data
-const int maxTime = 5000; //max time duration in ms to read and store IMU data
+const int maxData = 10000; //max data size for storing IMU data
+const int maxTime = 1000; //max time duration in ms to read and store IMU data
 float timeData[maxData];
 float xAcc[maxData], yAcc[maxData], zAcc[maxData];
 float xGyr[maxData], yGyr[maxData], zGyr[maxData];
